@@ -1,6 +1,7 @@
-# Getting Started with Create React App
+# Simple bug-tracker using MERN
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Utilizing express and mongodb for backend
 
 ## Available Scripts
 
