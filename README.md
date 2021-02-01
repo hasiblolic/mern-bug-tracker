@@ -1,8 +1,9 @@
 # Simple bug-tracker using MERN
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
 Utilizing express and mongodb for backend\
-TODO: Add login, authentication, user discussion posts in trackers, change the way trackers are made
+TODO: Add user discussion posts in trackers, change the way trackers are made
+
+Project needs to have a default config file (default.js) containing the jwt secret
 
 ## Available Scripts
 
