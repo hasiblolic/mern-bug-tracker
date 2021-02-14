@@ -1,9 +1,9 @@
 # Simple bug-tracker using MERN
 
 Utilizing express and mongodb for backend\
-TODO: 
-  Add profile functionality
-  Add user discussion posts in trackers, change the way trackers are made
+TODO: \
+  Add profile functionality\
+  Add user discussion posts in trackers, change the way trackers are made\
 
 Project needs to have a default config file (default.js) containing the jwt secret
 
