@@ -20,6 +20,7 @@ export const userController = {
             let user = await User.findOne({ email: req.body.email });
             if(user) {
                 // user found so email already exists - should ask to redirect to login here
+                console.log('user already exists');
                 return res.status(400).json({ email: "Email already exists" });
             } else {
                 user = new User({
@@ -33,7 +34,7 @@ export const userController = {
                 user.password = await bcrypt.hash(password, salt);
 
                 await user.save().catch(err => {
-                    console.log(err);
+                    console.log('could not save user' + err);
                 });
                 
                 const payload = {
@@ -41,8 +42,6 @@ export const userController = {
                         id: user.id,
                     }
                 }
-                let a = config.get('jwtSecret');
-                console.log(a);
 
                 jwt.sign(
                     payload, 
@@ -50,6 +49,7 @@ export const userController = {
                     { expiresIn: 3600 },
                     (err, token) => {
                         if(err) {
+                            console.log('error while signing token');
                             console.log(err);
                             throw err;
                         };
@@ -58,6 +58,7 @@ export const userController = {
                 );
             }
         } catch (error) {
+            console.log('other error occured');
             res.status(400).json(error);
         }
         

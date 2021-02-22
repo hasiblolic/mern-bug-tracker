@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import trackerReducer from './trackerReducer';
-import authReducer from "./authReducers";
-import errorReducer from "./errorReducers";
+import trackers from './trackerReducer';
+import auth from "./authReducers";
+import errors from "./errorReducers";
 
 export default combineReducers({
-  authReducer,
-  errorReducer,
-  trackerReducer
+  auth,
+  errors,
+  trackers
 });

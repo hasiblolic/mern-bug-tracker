@@ -12,10 +12,20 @@ class Dashboard extends Component {
         const { user } = this.props.auth;
         if(!user){
           return (
-            <div className="spinner-border" role="status">
+            <div>
+              <div className="spinner-border" role="status">
                 <span className="visually-hidden"></span>
+              </div>
+              <br/>
+              <button
+                onClick={this.onLogoutClick}
+                className="btn btn-primary"
+                >
+                Logout
+                </button>
             </div>
-          )
+            
+          );
         } else return (
             <div className="container">
                 <h4>
@@ -33,7 +43,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.authReducer
+  auth: state.auth
 });
 
 export default connect(

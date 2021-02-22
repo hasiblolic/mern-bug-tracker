@@ -24,7 +24,7 @@ export const loadUser = () => async dispatch => {
         console.log(err);
         dispatch({ type: AUTH_ERROR });
       });
-
+      console.log(res.data);
       dispatch({
         type: USER_LOADED,
         payload: res.data
@@ -49,15 +49,12 @@ export const registerUser = formData => async dispatch => {
 
     try {
       const res = await api.createUser(formData);
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-      });
+      console.log(res);
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       dispatch(loadUser());
     } catch (error) {
-      dispatch({
-        type: REGISTER_FAIL
-      })
+      dispatch({ type: GET_ERRORS, payload: errors });
+      dispatch({ type: REGISTER_FAIL });
     }
 };
 

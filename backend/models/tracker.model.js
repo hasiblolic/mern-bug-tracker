@@ -1,13 +1,11 @@
 import mongoose from 'mongoose';
-import trackerPostSchema from './tracker-post.model.js';
-const Schema = mongoose.Schema;
 
-const trackerSchema = new Schema({
+const trackerSchema = new mongoose.Schema({
     username: { type: String, required: true },
     description: { type: String, required: true },
     resolved: { type: Boolean, required: true },
-    date: { type: Date, required: true },
-    posts: [trackerPostSchema],
+    date: { type: Date, default: new Date() },
+    posts: [ String ],
 }, { timestamps: true });
 
 const Tracker = mongoose.model('Tracker', trackerSchema);
