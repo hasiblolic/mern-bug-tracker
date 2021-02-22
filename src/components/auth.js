@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser, loginUser } from '../actions/authActions.js';
-import { Link, Redirect, useHistory, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import Form from './form.js';
 
@@ -13,7 +13,7 @@ const initialState = {
     errors: {},
 }
 
-const RegisterUser = () => {
+const Auth = () => {
     const [form, setForm] = useState(initialState);
     const [isRegistration, setIsRegistration] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -22,14 +22,6 @@ const RegisterUser = () => {
     const auth = useSelector(state => state.auth);
     const errors = useSelector(state => state.errors);
 
-    const history = useHistory;
-    
-    // static getDerivedStateFromProps(nextProps, prevState) {
-        //     if(nextProps.errors !== prevState.errors) {
-            //         return ({ errors: nextProps.errors });
-            //     }
-            //     return null;
-            // }
     const handleShowPassword = () => setShowPassword(!showPassword);
 
     const switchMode = () => {
@@ -53,7 +45,7 @@ const RegisterUser = () => {
                 password: form.password,
                 password2: form.password2,
             };
-    
+            
             dispatch(registerUser(user));
         } else {
             const body = {
@@ -67,7 +59,6 @@ const RegisterUser = () => {
     if(auth.isAuthenticated) {
         return <Redirect to="/dashboard" />;
     }
-
     return (
         <div>
             <h3>Create New User</h3>
@@ -104,15 +95,20 @@ const RegisterUser = () => {
                         handleChange={handleChange}
                     />
                 )}
+                <div className="form-group has-validation">
+                    <div className="form-error-message">{errors.credentials}</div>
+                    <div className="form-error-message">{errors.existingUser}</div>
+                    <div className="form-error-message">{errors.serverError}</div>
+                </div>
                 <div className="form-group">
                     <button className="btn btn-primary" type="submit">{isRegistration ? 'Sign Up' : 'Sign In'}</button>
                 </div>
             </form>
-            <button className="btn btn-primary" onClick={switchMode}>
+            <button type="button" className="btn btn-link" onClick={switchMode}>
                 { isRegistration ? 'Already have an account? Sign In' : "Don't have an account? Sign Up" }
             </button>
         </div>
     );
 }
 
-export default RegisterUser;
+export default Auth;

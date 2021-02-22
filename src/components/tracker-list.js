@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getTrackers } from '../actions/trackerActions';
@@ -28,7 +27,7 @@ const NewTracker = ({tracker}) => {
 const TrackerList = ({setCurrentId}) => {
     const dispatch = useDispatch();
     
-    const trackers = useSelector((state) => state.trackerReducer.trackers);
+    const trackers = useSelector((state) => state.trackers.trackers);
     if(!trackers.length) dispatch(getTrackers());
     
     return (

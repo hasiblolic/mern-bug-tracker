@@ -21,7 +21,8 @@ export const userController = {
             if(user) {
                 // user found so email already exists - should ask to redirect to login here
                 console.log('user already exists');
-                return res.status(400).json({ email: "Email already exists" });
+                errors.existingUser = "This email is already registered. Did you want to sign in instead?";
+                return res.status(400).json(errors);
             } else {
                 user = new User({
                     username: req.body.username,
@@ -35,6 +36,8 @@ export const userController = {
 
                 await user.save().catch(err => {
                     console.log('could not save user' + err);
+                    errors.serverError = "We had some difficulties creating your profile. Please try again in a few minutes.";
+                    return res.status(400).json(errors);
                 });
                 
                 const payload = {
@@ -49,9 +52,10 @@ export const userController = {
                     { expiresIn: 3600 },
                     (err, token) => {
                         if(err) {
+                            errors.credentials = "There was an error while signing your validation token. Please try again in a few minutes.";
                             console.log('error while signing token');
                             console.log(err);
-                            throw err;
+                            return res.status(400).json(errors);
                         };
                         res.json({ token });
                     }
@@ -123,6 +127,17 @@ export const userController = {
             res.json(user);
         } catch (err) {
             res.status(500).send('Server Error');
+        }
+    },
+
+    async isExistingUser(req, res) {
+        try {
+            const { email } = req.params.id;
+            const user = await User.findOne(email).select('-password');
+            if(user) return res.status(200).json(user);
+            else return res.status(400).json({ msg: 'No user found' });
+        } catch (error) {
+            res.status(500).send('Server error');
         }
     }
 };

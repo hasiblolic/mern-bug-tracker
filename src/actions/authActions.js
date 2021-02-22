@@ -1,6 +1,3 @@
-import axios from 'axios';
-import setAuthToken from '../utils/setAuthToken';
-import jwt_decode from 'jwt-decode';
 import * as api from '../utils/api.js';
 
 import validator from 'validator';
@@ -39,17 +36,23 @@ export const loadUser = () => async dispatch => {
 // Register User
 export const registerUser = formData => async dispatch => {
     const { errors, isValid } = validateRegisterInput(formData);
-      if(!isValid) {
-          dispatch({
-              type: GET_ERRORS,
-              payload: errors,
-          });
-          return;
-      }
+    
+    // check for existing user
+    const isExistingUser = await api.isExistingUser(formData.email);
+    if(isExistingUser)
+      errors.existingUser = 'This email is already registered. Did you want to sign in instead?';
+    else errors.existingUser = '';
 
+    if(!isValid || isExistingUser) {
+        dispatch({
+            type: GET_ERRORS,
+            payload: errors,
+        });
+        return;
+    }
+    
     try {
       const res = await api.createUser(formData);
-      console.log(res);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       dispatch(loadUser());
     } catch (error) {
@@ -99,7 +102,7 @@ export const loginUser = (body) => async dispatch => {
 export const logoutUser = () => ({ type: LOGOUT });
 
 
-export function validateRegisterInput(data) {
+export const validateRegisterInput = (data) => {
     let errors = {};
 
     // convert empty fields into string
@@ -134,6 +137,8 @@ export function validateRegisterInput(data) {
     if(!validator.equals(data.password, data.password2)) {
         errors.password2 = 'Passwords do not match. Please make sure that the passwords are matching.';
     }
+
+    
 
     return {
         errors,

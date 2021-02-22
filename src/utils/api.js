@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from '../store/store';
-import { GET_ERRORS, LOGOUT } from '../actions/types';
+import { LOGOUT } from '../actions/types';
 
 export const api = axios.create({
     baseURL: 'http://localhost:5000/api',
@@ -43,6 +43,7 @@ export const deleteTrackerPost = (id) => api.delete(`${trackerPostEndPoint}/:${i
 const userEndpoint = '/users';
 export const createUser = (newUser) => api.post(`${userEndpoint}/register`, newUser);
 export const getUserByToken = () => api.get(`${userEndpoint}/auth`);
+export const isExistingUser = (email) => api.get(`${userEndpoint}/find/${email}`);
 export const loginUser = (formData) => api.post(`${userEndpoint}/auth`, formData);
 export const updateUser = (id, updatedUser) => api.patch(`${userEndpoint}/:${id}`, updatedUser);
 export const deleteUser = (id) => api.delete(`${userEndpoint}/:${id}`);

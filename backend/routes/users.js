@@ -20,4 +20,8 @@ router.get('/auth', auth, userController.getUserByToken);
 // authenticate user and get token - use to issue a token, so auth middleware is not used
 router.post('/auth', userController.loginUser);
 
+// api/users/existingUser
+// this route is used for validation during the registration process to make sure people can't register with the same email multiple times
+router.get('/find/:id', userController.isExistingUser);
+
 export default router;
