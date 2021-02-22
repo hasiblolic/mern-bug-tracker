@@ -5,8 +5,6 @@ TODO: \
   Add profile functionality\
   Add user discussion posts in trackers, change the way trackers are made
 
-Project needs to have a default config file (default.js) containing the jwt secret
-
 ## Available Scripts
 
 In the project directory, you can run:
